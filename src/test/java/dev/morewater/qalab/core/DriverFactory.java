@@ -12,6 +12,17 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public final class DriverFactory {
     private static final ThreadLocal<WebDriver> CURRENT = new ThreadLocal<>();
 
+    static {
+        // Chrome se actualiza mas rapido que Selenium, asi que Selenium avisa que no
+        // conoce la version de CDP (las DevTools) de tu Chrome. A nosotros no nos
+        // importa: nunca usamos DevTools. Silenciamos el aviso para que la consola
+        // enseñe los resultados y no tres parrafos de advertencia por prueba.
+        java.util.logging.Logger.getLogger("org.openqa.selenium.devtools.CdpVersionFinder")
+                .setLevel(java.util.logging.Level.OFF);
+        java.util.logging.Logger.getLogger("org.openqa.selenium.chromium.ChromiumDriver")
+                .setLevel(java.util.logging.Level.SEVERE);
+    }
+
     private DriverFactory() {}
 
     public static WebDriver create() {

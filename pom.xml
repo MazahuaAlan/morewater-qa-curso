@@ -40,6 +40,14 @@
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
     </dependency>
+
+    <!-- Selenium escribe sus mensajes a traves de SLF4J. Sin una implementacion,
+         SLF4J se queja en cada corrida. Esta la calla: no queremos bitacora. -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>2.0.16</version>
+    </dependency>
   </dependencies>
 
   <build>

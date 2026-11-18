@@ -20,7 +20,9 @@ No hay nada que inventar en la primera clase: clonas, corres, y tiene que pasar.
 Los tres primeros comandos tienen que contestar algo. Si uno dice
 «command not found», ese es el que falta.
 
-> No necesitas descargar el chromedriver. Selenium lo consigue solo.
+> **Chrome tiene que estar instalado.** No necesitas descargar el chromedriver —eso lo
+> consigue Selenium solo—, pero el navegador sí. Si no lo tienes, Selenium se baja uno
+> entero (unos 150 MB) sin decirte nada, y parece que se colgó.
 
 ---
 
@@ -32,10 +34,18 @@ cd morewater-qa-curso
 mvn test
 ```
 
-**La primera vez tarda.** Maven baja Selenium, TestNG y AssertJ: son unos
-80 MB y los guarda en `~/.m2`. De la segunda vez en adelante arranca en
-segundos. Si ves cientos de líneas de `Downloading from central`, no está
-roto: está bajando.
+**La primera vez tarda, y en dos tiempos.**
+
+1. Maven baja Selenium, TestNG y AssertJ: unos 80 MB, con cientos de líneas de
+   `Downloading from central`. Se ve lo que pasa.
+2. Después aparece `T E S T S` y **la pantalla se queda quieta**. Ahí Selenium está
+   bajando el chromedriver, y eso **no imprime nada**. Puede tardar un par de minutos.
+
+> ⚠ **Esa pausa en silencio no es un cuelgue.** Es el momento en el que todo el mundo
+> cree que se rompió. Déjalo trabajar. Si pasan más de cinco minutos sin que termine,
+> ahí sí avisa.
+
+De la segunda corrida en adelante, las tres pruebas tardan unos **veinte segundos**.
 
 ---
 
@@ -44,6 +54,12 @@ roto: está bajando.
 ```
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
+```
+
+Y antes de eso, una línea que vale la pena leer:
+
+```
+   el navegador abrio y leyo: "Tu entorno funciona"
 ```
 
 Tres pruebas:
@@ -128,6 +144,14 @@ Abre https://qalab.morewater.dev en tu navegador. Si no carga, es la red.
 
 **`TimeoutException` esperando `user-chip`**
 El sitio tardó más de 15 segundos. Súbelo: `mvn test -Dqalab.timeout=40`
+
+**Se queda quieto justo después de `T E S T S`**
+Está bajando el chromedriver, en silencio. Espera. Si tarda demasiado, lo más probable
+es que no tengas Chrome instalado y se esté bajando un navegador completo: instala
+Chrome y vuelve a correr.
+
+**Avisos de `CDP` o de `SLF4J`**
+Si los ves, tienes una copia vieja del repo. Haz `git pull` — ya están silenciados.
 
 Si nada de esto aplica: manda la terminal completa, desde el comando hasta
 la última línea. No el pedazo rojo nada más.
