@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!-- La suite del curso. Cada quien agrega su clase aqui cuando le toque su modulo. -->
+<suite name="MoreWater QA Evolution" verbose="1">
+
+  <test name="Arranque">
+    <classes>
+      <class name="dev.morewater.qalab.tests.HumoTest"/>
+      <class name="dev.morewater.qalab.tests.AccesoTest"/>
+    </classes>
+  </test>
+
+</suite>
