@@ -22,9 +22,24 @@ public abstract class BasePage {
 
     protected static By t(String dataTest) { return By.cssSelector("[data-test='" + dataTest + "']"); }
 
-    protected WebElement visible(String dataTest) { return wait.until(ExpectedConditions.visibilityOfElementLocated(t(dataTest))); }
+    // ---------------------------------------------------------------------
+    // Los metodos que reciben un String son el atajo para el caso de siempre:
+    // el elemento tiene data-test. Los que reciben un By son la puerta de
+    // atras para cuando NO lo tiene, y hay que ir por id, por XPath o por lo
+    // que sea. Una capa que solo sabe buscar de una forma es una capa que
+    // tarde o temprano te estorba.
+    //
+    //     visible("wallet-balance")           <- el atajo
+    //     visible(By.id("bclabe"))            <- la puerta de atras
+    // ---------------------------------------------------------------------
 
-    protected void click(String dataTest) { wait.until(ExpectedConditions.elementToBeClickable(t(dataTest))).click(); }
+    protected WebElement visible(By localizador) { return wait.until(ExpectedConditions.visibilityOfElementLocated(localizador)); }
+
+    protected WebElement visible(String dataTest) { return visible(t(dataTest)); }
+
+    protected void click(By localizador) { wait.until(ExpectedConditions.elementToBeClickable(localizador)).click(); }
+
+    protected void click(String dataTest) { click(t(dataTest)); }
 
     protected void type(String dataTest, String text) {
         WebElement el = visible(dataTest);
@@ -43,14 +58,23 @@ public abstract class BasePage {
 
     protected void select(String dataTest, String value) { new Select(visible(dataTest)).selectByValue(value); }
 
-    protected String text(String dataTest) { return visible(dataTest).getText().trim(); }
+    protected String text(By localizador) { return visible(localizador).getText().trim(); }
 
-    protected boolean present(String dataTest) { return !driver.findElements(t(dataTest)).isEmpty(); }
+    protected String text(String dataTest) { return text(t(dataTest)); }
 
-    /** Dinero en pesos → centavos ("$1,234.50" → 123450). */
+    protected boolean present(By localizador) { return !driver.findElements(localizador).isEmpty(); }
+
+    protected boolean present(String dataTest) { return present(t(dataTest)); }
+
+    /** Cuantos elementos hay. Sirve para contar filas, mosaicos o resultados. */
+    protected int cuantos(By localizador) { return driver.findElements(localizador).size(); }
+
+    protected int cuantos(String dataTest) { return cuantos(t(dataTest)); }
+
+    /** Dinero en pesos â†’ centavos ("$1,234.50" â†’ 123450). */
     public static long cents(String money) { return Math.round(Double.parseDouble(money.replaceAll("[^0-9.-]", "")) * 100); }
 
-    /** Espera a que termine la última petición simulada (window.qalab.calls()). */
+    /** Espera a que termine la Ãºltima peticiÃ³n simulada (window.qalab.calls()). */
     protected void waitForCallsAfter(long before) {
         wait.until(d -> ((Number) ((JavascriptExecutor) d).executeScript("return window.qalab.calls()")).longValue() > before);
     }
