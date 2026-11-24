@@ -10,6 +10,8 @@
       <class name="dev.morewater.qalab.tests.AccesoTest"/>
       <class name="dev.morewater.qalab.tests.BilleteraTest"/>
       <class name="dev.morewater.qalab.tests.PlataformaTest"/>
+      <class name="dev.morewater.qalab.tests.EatsTest"/>
+      <class name="dev.morewater.qalab.tests.CareTest"/>
     </classes>
   </test>
 
