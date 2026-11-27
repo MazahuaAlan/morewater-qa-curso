@@ -8,6 +8,8 @@
     <classes>
       <class name="dev.morewater.qalab.tests.HumoTest"/>
       <class name="dev.morewater.qalab.tests.AccesoTest"/>
+      <class name="dev.morewater.qalab.tests.BilleteraTests"/>
+      <class name="dev.morewater.qalab.tests.PlataformaTest"/>
     </classes>
   </test>
 
